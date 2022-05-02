@@ -1,0 +1,22 @@
+<div class="container">
+  <div class="row ">
+    <div class="col-sm">
+    </div>
+    <div class="col-sm">
+      <p class="text-center">
+        <h5 class="text-center">
+          {% with messages = get_flashed_messages() %}
+            {% if messages %}
+              {% for message in messages %}
+                Ваша новая ссылка готова:<br>
+                <a href="{{ url_for('mapper', short_url=message, _external=True) }}">{{ url_for('mapper', short_url=message, _external=True) }}</a>
+              {% endfor %}
+            {% endif %}
+          {% endwith %}
+        </h5>
+      </p>
+    </div>
+    <div class="col-sm">
+    </div>
+  </div>
+</div>
