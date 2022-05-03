@@ -8,7 +8,7 @@ allowed_symbols = f'{ascii_letters}{digits}'
 
 
 class UrlForm(FlaskForm):
-    long_url = fields.URLField(
+    original_link = fields.URLField(
         label='Введите длинную ссылку',
         validators=(
             validators.DataRequired(
@@ -19,7 +19,7 @@ class UrlForm(FlaskForm):
             )
         )
     )
-    short_url = fields.StringField(
+    custom_id = fields.StringField(
         label='Введите название до 16 символов',
         validators=(
             validators.Optional(),

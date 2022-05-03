@@ -13,4 +13,7 @@ class AllOf(validators.AnyOf):
         if all((symbol in self.values) for symbol in field.data):
             return
 
-        raise ValidationErr(f'{field.data} not in {self.values}')
+        if self.message is None:
+            self.message = f'Some element of {field.data} not in {self.values}'
+
+        raise ValidationErr(self.message)

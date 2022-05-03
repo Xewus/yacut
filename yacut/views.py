@@ -16,36 +16,37 @@ def get_unique_short_id(symbols, length=6):
         for i in range(length):
             result.append(choice(symbols))
         result = ''.join(result)
-        if not models.UrlMap.query.filter_by(short=result).first():
+        if not models.URL_map.query.filter_by(short=result).first():
             return result
         result = []
 
 
 @app.route('/', methods=('GET', 'POST'))
 def index_view():
-    print(app.root_path)
     form = forms.UrlForm()
     if form.validate_on_submit():
-        short_url = form.short_url.data
+        short_url = form.custom_id.data
         if not short_url:
             short_url = get_unique_short_id(allowed_symbols)
-        elif models.UrlMap.query.filter_by(short=short_url).first():
-            flash('Такое сокращение уже занято')
+        elif models.URL_map.query.filter_by(short=short_url).first():
+            flash(f'Имя {short_url} уже занято!')
             return render_template('index.html', form=form)
 
-        long_url = form.long_url.data
-        url_map = models.UrlMap(
-            original=long_url,
+        original_link = form.original_link.data
+        url_map = models.URL_map(
+            original=original_link,
             short=short_url
         )
+        flash('Ваша новая ссылка готова:\n')
         flash(short_url)
         db.session.add(url_map)
         db.session.commit()
-        return redirect(url_for('index_view'))
     return render_template('index.html', form=form)
 
 
 @app.route('/<string:short_url>')
 def mapper(short_url):
-    original_url = models.UrlMap.query.filter_by(short=short_url).first()
+    original_url = models.URL_map.query.filter_by(short=short_url).first()
+    if original_url is None:
+        abort(404)
     return redirect(original_url.original)

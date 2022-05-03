@@ -2,20 +2,20 @@
   {{ form.csrf_token }}
   <div>
     <div>
-      {{ form.long_url(class="form-control form-control-lg py-2 mb-3", id="form-long-url", placeholder=form.long_url.label.text) }}
+      {{ form.original_link(class="form-control form-control-lg py-2 mb-3", id="form-original_link", placeholder=form.original_link.label.text) }}
       <p>
-        {% if form.long_url.errors %}
-          {% for error in form.long_url.errors %}
+        {% if form.original_link.errors %}
+          {% for error in form.original_link.errors %}
             <span style="color: red">{{ error }}</span>
           {% endfor %}
         {% endif %}
       </p>
     </div>
     <div>
-      {{ form.short_url(class="form-control form-control-lg py-2 mb-3", id="form-short_url", placeholder=form.short_url.label.text) }}
+      {{ form.custom_id(class="form-control form-control-lg py-2 mb-3", id="form-custom_id", placeholder=form.custom_id.label.text) }}
       <p>
-        {% if form.short_url.errors %}
-          {% for error in form.short_url.errors %}
+        {% if form.custom_id.errors %}
+          {% for error in form.custom_id.errors %}
             <span style="color: red">{{ error }}</span>
           {% endfor %}
         {% endif %}

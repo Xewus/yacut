@@ -7,10 +7,10 @@
         <h5 class="text-center">
           {% with messages = get_flashed_messages() %}
             {% if messages %}
-              {% for message in messages %}
-                Ваша новая ссылка готова:<br>
-                <a href="{{ url_for('mapper', short_url=message, _external=True) }}">{{ url_for('mapper', short_url=message, _external=True) }}</a>
-              {% endfor %}
+              {{ messages[0] }}
+              {% if messages[1] %}
+                <a href="{{ url_for('mapper', short_url=messages[1], _external=True) }}">{{ url_for('mapper', short_url=messages[1], _external=True) }}</a>
+              {% endif %}
             {% endif %}
           {% endwith %}
         </h5>

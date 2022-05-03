@@ -1,0 +1,12 @@
+{% extends 'base.html' %} 
+{% block title %}404. Если тут что-то было, теперь этого тут нет.{% endblock %}
+{% block content %}
+<main>
+  <section class="container my-5">
+    <div class="row">
+        <p>Если тут что-то было, теперь этого тут нет.</p>
+        <img class="img-fluid mx-auto d-block" src="{{ url_for('static', filename='img/404.gif') }}" alt="" />
+    </div>
+  </section>
+</main>
+{% endblock %}
