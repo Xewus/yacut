@@ -20,7 +20,7 @@ def new_short_url():
     if len(custom_id) > 16:
         raise APIException('Указано недопустимое имя для короткой ссылки')
     if models.URL_map.query.filter_by(short=data['custom_id']).first():
-        raise APIException('Такое уже имя занято')
+        raise APIException(f'Имя "{custom_id}" уже занято.')
 
     url_map = models.URL_map()
     url_map.from_dict(data)
