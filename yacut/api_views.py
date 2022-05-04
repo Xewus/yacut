@@ -8,13 +8,13 @@ from . import app, db, error_handlers, models, validators, utils
 APIException = error_handlers.APIException
 
 
-@app.route('/api/id/', methods=('POST',))
+@app.route('/api/id/', methods=['POST'])
 def new_short_url():
     """запрос на создание новой короткой ссылки
     """
     data = request.get_json()
     if not data or 'url' not in data:
-        return jsonify({'message': 'Отсутствует тело запроса'}), 400
+        raise APIException('Отсутствует тело запроса')
     if 'custom_id' not in data:
         custom_id = utils.get_unique_short_id()
         data['custom_id'] = custom_id

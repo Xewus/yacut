@@ -10,8 +10,9 @@ class URL_map(db.Model):
     timestamp = db.Column(db.DateTime, default=dt.utcnow)
 
     def from_dict(self, data):
-        original = data.get['url']
-        short = data.get['custom_id']
+        print(data, '\n'*5)
+        original = data.get('url')
+        short = data.get('custom_id')
         if original and short:
             self.original = original
             self.short = short
