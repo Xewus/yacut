@@ -20,7 +20,7 @@ def new_short_url():
         data['custom_id'] = custom_id
 
     custom_id = data['custom_id']
-    if not len_validation(custom_id) and not symbols_validation(custom_id):
+    if not len_validation(custom_id, max=6) or not symbols_validation(custom_id):
         raise APIException('Указано недопустимое имя для короткой ссылки')
     if URL_map.query.filter_by(short=data['custom_id']).first():
         raise APIException(f'Имя "{custom_id}" уже занято.')
