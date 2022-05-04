@@ -1,7 +1,9 @@
 from flask import abort, flash, redirect, render_template
 
-from . import app, db, forms, models, utils
+from . import app
 from . import constants as const
+from . import db, forms, models, utils
+
 
 @app.route('/', methods=('GET', 'POST'))
 def index_view():
@@ -16,8 +18,7 @@ def index_view():
         if short_url:
             if utils.short_url_exist(short_url, models.URL_map):
 
-                flash(const.SHORT_URL_IS_BUSY_ % short_url)
-                # flash(f'Имя {short_url} уже занято!')
+                flash(const.SHORT_URL_IS_BUSY % short_url)
                 return render_template('index.html', form=form)
         else:
             short_url = utils.get_unique_short_id()

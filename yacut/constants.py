@@ -7,5 +7,5 @@ api_fields = {
     'short': 'custom_id',
 }
 
-SHORT_URL_IS_BUSY_ = 'Имя %s уже занято!'
+SHORT_URL_IS_BUSY = 'Имя %s уже занято!'
 YOUR_URL_IS_READY = 'Ваша новая ссылка готова:\n'
