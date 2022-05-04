@@ -1,6 +1,6 @@
 from flask import jsonify, render_template
 
-from . import app, db
+from . import app
 
 
 class APIException(Exception):
