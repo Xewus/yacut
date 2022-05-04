@@ -1,5 +1,6 @@
-from xml.dom import ValidationErr
 from wtforms import validators
+
+from . constants import allowed_symbols
 
 DataRequired = validators.DataRequired
 Length = validators.Length
@@ -16,4 +17,18 @@ class AllOf(validators.AnyOf):
         if self.message is None:
             self.message = f'Some element of {field.data} not in {self.values}'
 
-        raise ValidationErr(self.message)
+        raise validators.ValidationError(self.message)
+
+
+def len_validation(sequense, min=1, max=1):
+    try:
+        getattr(sequense, '__len__')
+    except AttributeError:
+        return False
+    return min <= len(sequense) <= max
+
+
+def symbols_validation(string):
+    if not isinstance(string, str):
+        return False
+    return all((symbol in allowed_symbols) for symbol in string)

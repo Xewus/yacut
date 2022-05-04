@@ -1,9 +1,7 @@
 from random import choice
 
 from . import models
-from string import ascii_letters, digits
-
-allowed_symbols = f'{ascii_letters}{digits}'
+from . constants import allowed_symbols
 
 
 def get_unique_short_id(symbols=allowed_symbols, length=6):
