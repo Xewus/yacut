@@ -1,7 +1,4 @@
-import re
-from flask import jsonify, request
-
-from flask import jsonify, request
+from flask import jsonify, request, url_for
 
 from . import app, db, error_handlers, models, validators, utils
 
@@ -15,7 +12,7 @@ def new_short_url():
     data = request.get_json()
     if not data or 'url' not in data:
         raise APIException('Отсутствует тело запроса')
-    if 'custom_id' not in data:
+    if 'custom_id' not in data or 'custom_id' == '':
         custom_id = utils.get_unique_short_id()
         data['custom_id'] = custom_id
 
@@ -29,7 +26,14 @@ def new_short_url():
     url_map.from_dict(data)
     db.session.add(url_map)
     db.session.commit()
-    return jsonify(url_map.as_dict()), 201
+    short_link = url_map.short
+    response_dict = dict(
+        short_link=url_for(
+            'mapper', short_url=short_link, _external=True
+        ),
+        url=url_map.original
+    )
+    return jsonify(response_dict), 201
 
 
 
