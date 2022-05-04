@@ -1,24 +1,32 @@
 from flask import abort, flash, redirect, render_template
 
 from . import app, db, forms, models, utils
+from . import constants as const
 
 @app.route('/', methods=('GET', 'POST'))
 def index_view():
+    """Главная страница с формой для генерации коротких ссылок.
+
+    Returns:
+        str: HTML-страница 
+    """
     form = forms.UrlForm()
     if form.validate_on_submit():
         short_url = form.custom_id.data
-        if not short_url:
-            short_url = utils.get_unique_short_id()
-        elif models.URL_map.query.filter_by(short=short_url).first():
-            flash(f'Имя {short_url} уже занято!')
-            return render_template('index.html', form=form)
+        if short_url:
+            if utils.short_url_exist(short_url, models.URL_map):
 
-        original_link = form.original_link.data
+                flash(const.SHORT_URL_IS_BUSY_ % short_url)
+                # flash(f'Имя {short_url} уже занято!')
+                return render_template('index.html', form=form)
+        else:
+            short_url = utils.get_unique_short_id()
+
         url_map = models.URL_map(
-            original=original_link,
+            original=form.original_link.data,
             short=short_url
         )
-        flash('Ваша новая ссылка готова:\n')
+        flash(const.YOUR_URL_IS_READY)
         flash(short_url)
         db.session.add(url_map)
         db.session.commit()
@@ -27,6 +35,14 @@ def index_view():
 
 @app.route('/<string:short_url>')
 def mapper(short_url):
+    """Перенаправляет с короткой ссылки на оригинальную.
+
+    Args:
+        short_url (str): Короткое имя.
+
+    Returns:
+        Responce: Перенапрвление на оригинальную ссылку.
+    """
     original_url = models.URL_map.query.filter_by(short=short_url).first()
     if original_url is None:
         abort(404)

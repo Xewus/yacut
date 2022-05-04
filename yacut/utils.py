@@ -22,3 +22,16 @@ def get_unique_short_id(symbols=allowed_symbols, length=6):
         if not models.URL_map.query.filter_by(short=result).first():
             return result
         result = []
+
+
+def short_url_exist(short_url, model):
+    """Проверяет наличие в таблице данных по полю `short`.
+
+    Args:
+        short_url (string): Проверяемые данные.
+        model (db.Model): Модель связанная с таблицей в БД.
+
+    Returns:
+        bool: Наличие либо отсутствие записи с указанными данными.
+    """
+    return bool(model.query.filter_by(short=short_url).first())
