@@ -17,7 +17,7 @@ class URL_map(db.Model):
             self.original = original
             self.short = short
             return
-        raise
+        raise Exception
 
     def as_dict(self):
         return dict(

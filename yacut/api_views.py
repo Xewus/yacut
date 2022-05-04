@@ -12,7 +12,7 @@ def new_short_url():
     data = request.get_json()
     if not data or 'url' not in data:
         raise APIException('Отсутствует тело запроса')
-    if 'custom_id' not in data or 'custom_id' == '':
+    if 'custom_id' not in data or not data['custom_id']:
         custom_id = utils.get_unique_short_id()
         data['custom_id'] = custom_id
 
