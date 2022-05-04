@@ -1,25 +1,6 @@
-from email import message
-from random import choice
-
 from flask import abort, flash, redirect, render_template, url_for
 
-from . import app, db, forms, models
-
-from string import ascii_letters, digits
-
-allowed_symbols = f'{ascii_letters}{digits}'
-
-
-def get_unique_short_id(symbols, length=6):
-    result = []
-    while True:
-        for i in range(length):
-            result.append(choice(symbols))
-        result = ''.join(result)
-        if not models.URL_map.query.filter_by(short=result).first():
-            return result
-        result = []
-
+from . import app, db, forms, models, utils
 
 @app.route('/', methods=('GET', 'POST'))
 def index_view():
@@ -27,7 +8,7 @@ def index_view():
     if form.validate_on_submit():
         short_url = form.custom_id.data
         if not short_url:
-            short_url = get_unique_short_id(allowed_symbols)
+            short_url = utils.get_unique_short_id()
         elif models.URL_map.query.filter_by(short=short_url).first():
             flash(f'Имя {short_url} уже занято!')
             return render_template('index.html', form=form)
