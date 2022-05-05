@@ -1,13 +1,18 @@
-from flask_wtf import FlaskForm
 import wtforms as fields
+from flask_wtf import FlaskForm
+
 from . import validators
-
-from string import ascii_letters, digits
-
-allowed_symbols = f'{ascii_letters}{digits}'
+from .constants import allowed_symbols
 
 
-class UrlForm(FlaskForm):
+class UrlMapForm(FlaskForm):
+    """Форма для `/index_view()`.
+
+    Attrs:
+        original_link: Оригинальная ссылка.
+        custom_id: Короткое имя.
+        submit: Кнопка подтверждения.
+    """
     original_link = fields.URLField(
         label='Введите длинную ссылку',
         validators=(

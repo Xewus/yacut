@@ -8,4 +8,4 @@ api_fields = {
 }
 
 SHORT_URL_IS_BUSY = 'Имя %s уже занято!'
-YOUR_URL_IS_READY = 'Ваша новая ссылка готова:\n'
+YOUR_URL_IS_READY = 'Ваша новая ссылка готова:'

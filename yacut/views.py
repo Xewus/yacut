@@ -10,9 +10,9 @@ def index_view():
     """Главная страница с формой для генерации коротких ссылок.
 
     Returns:
-        str: HTML-страница 
+        str: HTML-страница
     """
-    form = forms.UrlForm()
+    form = forms.UrlMapForm()
     if form.validate_on_submit():
         short_url = form.custom_id.data
         if short_url:
