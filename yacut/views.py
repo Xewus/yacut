@@ -1,4 +1,3 @@
-from email import message
 from flask import abort, flash, redirect, render_template
 
 from . import app

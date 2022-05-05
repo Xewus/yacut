@@ -1,29 +1,31 @@
 from random import choice
+
 from sqlalchemy.exc import IntegrityError
 
-from . import db
 from . import constants as const
-from . models import URL_map
+from . import db
+from .models import URL_map
 
 
 def get_unique_short_id(symbols=const.allowed_symbols, length=6):
     """Создаёт строку из случайных символов.
 
     Args:
-        symbols (_type_): _description_
-        length (int, optional): _description_. Defaults to 6.
+        symbols (str): Разрешённые для генерации символы.
+        length (int, optional): Длина генерируемой строки. Defaults to 6.
 
     Returns:
-        _type_: _description_
+        str: Сгенерировання случайноя строка.
     """
     result = []
     while True:
         for i in range(length):
             result.append(choice(symbols))
         result = ''.join(result)
-        if not URL_map.query.filter_by(short=result).first():
-            return result
-        result = []
+        if URL_map.query.filter_by(short=result).first():
+            result = []
+            continue
+        return ''.join(result)
 
 
 def short_url_exist(short_url):
@@ -43,8 +45,10 @@ def add_url_map(original, short):
     """Добавляет данные в БД.
 
     Args:
-        original (_type_): _description_
-        short (_type_): _description_
+        original (str): Данные для URL_map.original.
+        short (str):  Данные для URL_map.short.
+    Returns:
+        boll: Удалось или нет добавить данные.
     """
     url_map = URL_map(
         original=original,
@@ -59,6 +63,14 @@ def add_url_map(original, short):
 
 
 def get_urls_for_map(form):
+    """Получает и проверяет данные из формы.
+
+    Args:
+        form (FlaskForm): Форма с данными.
+
+    Returns:
+        tuple(str, ...): полученные данные.
+    """
     original = form.original_link.data
     short = form.custom_id.data
     if short:

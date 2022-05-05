@@ -19,6 +19,7 @@ class APIException(Exception):
         """
         return dict(message=self.message)
 
+
 @app.errorhandler(APIException)
 def api_exception(error):
     """Обрабатывает ошибки для api.

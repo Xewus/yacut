@@ -18,21 +18,6 @@ class URL_map(db.Model):
     short = db.Column(db.String(16), nullable=False, unique=True)
     timestamp = db.Column(db.DateTime(), default=dt.utcnow)
 
-    def from_dict(self, data):
-        """Записывает данные из словаря в модель.
-
-        Args:
-            data (dict): Данные в виде словаря.
-
-        Raises:
-            ValueError: Если недостаточно данных для заполнения модели.
-        """
-        for field, api_field in api_fields.items():
-            url = data.get(api_field)
-            if url is None:
-                raise ValueError('Нарушена целостность данных')
-            setattr(self, field, url)
-
     def as_dict(self):
         """Преобразует данные модели в словарь.
 

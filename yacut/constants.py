@@ -6,6 +6,9 @@ api_fields = {
     'original': 'url',
     'short': 'custom_id',
 }
+
+MAX_LEN_SHORT = 16
+
 # used in .views
 SHORT_URL_IS_BUSY = 'Имя %s%s%s уже занято%s'  # В тестах использованы разные знаки препинания @_@
 YOUR_URL_IS_READY = 'Ваша новая ссылка готова:'

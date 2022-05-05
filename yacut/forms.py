@@ -1,8 +1,8 @@
 import wtforms as fields
 from flask_wtf import FlaskForm
 
+from . import constants as const
 from . import validators
-from .constants import allowed_symbols
 
 
 class UrlMapForm(FlaskForm):
@@ -25,15 +25,15 @@ class UrlMapForm(FlaskForm):
         )
     )
     custom_id = fields.StringField(
-        label='Введите название до 16 символов',
+        label='Введите название до %s символов' % const.MAX_LEN_SHORT,
         validators=(
             validators.Optional(),
             validators.Length(
-                max=16,
-                message='Слишком длинная'
+                max=const.MAX_LEN_SHORT,
+                message='Слишком длинное имя'
             ),
             validators.AllOf(
-                values=allowed_symbols,
+                values=const.allowed_symbols,
                 message='Разрешены только латиница и цифры'
             )
         )
