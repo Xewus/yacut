@@ -9,7 +9,7 @@ URL = validators.URL
 ValidationErr = validators.ValidationError
 
 
-def len_validation(sequense, min=1, max=1):
+def len_validation(sequense, exception, min=1, max=1):
     """_summary_
 
     Args:
@@ -24,21 +24,19 @@ def len_validation(sequense, min=1, max=1):
         getattr(sequense, '__len__')
     except AttributeError:
         return False
-    return min <= len(sequense) <= max
+    if min <= len(sequense) <= max:
+        return
+    raise exception
 
 
-def symbols_validation(string):
-    if not isinstance(string, str):
-        return False
-    return all((symbol in allowed_symbols) for symbol in string)
+def symbols_validation(string, exception):
+    if isinstance(string, str) and all((symbol in allowed_symbols) for symbol in string):
+        return
+    raise exception
 
 
 class AllOf(validators.AnyOf):
     def __call__(self, form, field):
-        if symbols_validation(field.data):
-            return
-
         if self.message is None:
             self.message = f'Some element of {field.data} not in {self.values}'
-
-        raise validators.ValidationError(self.message)
+        symbols_validation(field.data, validators.ValidationError(self.message))

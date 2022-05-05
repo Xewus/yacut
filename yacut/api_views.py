@@ -1,44 +1,52 @@
 from flask import jsonify, request, url_for
 
-from . import app, db, utils
+from . import app, utils
 from . models import URL_map
 from . error_handlers import APIException
 from . validators import len_validation, symbols_validation
+from . import constants as const
 
 
 @app.route('/api/id/', methods=['POST'])
 def new_short_url():
-    """запрос на создание новой короткой ссылки
+    """Обработка запроса на создание новой короткой ссылки.
+
+    Raises:
+        APIException: При получении некорректных данных.
+
+    Returns:
+        Responce: json.
     """
+    original = const.api_fields['original']
+    short = const.api_fields['short']
     data = request.get_json()
+
     if not data:
-        raise APIException('Отсутствует тело запроса')
-    if 'url' not in data:
-        raise APIException('\"url\" является обязательным полем!')
-    if 'custom_id' not in data or not data['custom_id']:
-        custom_id = utils.get_unique_short_id()
-        data['custom_id'] = custom_id
+        raise APIException(const.NO_REQUEST_BODY)
 
-    custom_id = data['custom_id']
-    if not len_validation(custom_id, max=6) or not symbols_validation(custom_id):
-        raise APIException('Указано недопустимое имя для короткой ссылки')
-    if URL_map.query.filter_by(short=data['custom_id']).first():
-        raise APIException(f'Имя "{custom_id}" уже занято.')
+    if data.get(original) is None:
+        raise APIException(const.NO_REQUIRED_FIELD % original)
 
-    url_map = URL_map()
-    url_map.from_dict(data)
-    db.session.add(url_map)
-    db.session.commit()
-    short_link = url_map.short
+    original = data.get(original)
+    short = data.get(short)
+    if short:
+        len_validation(short, APIException(const.API_EXC_MESSAGE), max=16)
+        symbols_validation(short, APIException(const.API_EXC_MESSAGE))
+        if utils.short_url_exist(short):
+            raise APIException(const.SHORT_URL_IS_BUSY % ('"', short, '"', '.'))
+    else:
+        short = utils.get_unique_short_id()
+
+    data['custom_id'] = short
+
+    utils.add_url_map(original, short)
     response_dict = dict(
         short_link=url_for(
-            'mapper', short_url=short_link, _external=True
+            'mapper', short_url=short, _external=True
         ),
-        url=url_map.original
+        url=original
     )
     return jsonify(response_dict), 201
-
-
 
 
 @app.route('/api/id/<string:short_id>/', methods=['GET'])
@@ -50,5 +58,5 @@ def get_mapper_url(short_id):
     """
     url_map = URL_map.query.filter_by(short=short_id).first()
     if url_map is None:
-        raise APIException('Указанный id не найден', 404)
+        raise APIException(const.NOT_FOUND, 404)
     return dict(url=f'{url_map.original}'), 200

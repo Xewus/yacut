@@ -13,10 +13,10 @@ class URL_map(db.Model):
        short: Подменный короткий URL
        timestamp: Временная метка. Defaults to utcnow.
     """
-    id = db.Column(db.Integer, primary_key=True)
-    original = db.Column(db.Text, nullable=False)
+    id = db.Column(db.Integer(), primary_key=True)
+    original = db.Column(db.Text(), nullable=False, index=True)
     short = db.Column(db.String(16), nullable=False, unique=True)
-    timestamp = db.Column(db.DateTime, default=dt.utcnow)
+    timestamp = db.Column(db.DateTime(), default=dt.utcnow)
 
     def from_dict(self, data):
         """Записывает данные из словаря в модель.

@@ -1,8 +1,9 @@
+from email import message
 from flask import abort, flash, redirect, render_template
 
 from . import app
 from . import constants as const
-from . import db, forms, models, utils
+from . import forms, models, utils
 
 
 @app.route('/', methods=('GET', 'POST'))
@@ -14,23 +15,17 @@ def index_view():
     """
     form = forms.UrlMapForm()
     if form.validate_on_submit():
-        short_url = form.custom_id.data
-        if short_url:
-            if utils.short_url_exist(short_url, models.URL_map):
+        original, short_url, err_message = utils.get_urls_for_map(form)
+        if err_message:
+            flash(err_message)
+            return render_template('index.html', form=form)
 
-                flash(const.SHORT_URL_IS_BUSY % short_url)
-                return render_template('index.html', form=form)
-        else:
-            short_url = utils.get_unique_short_id()
+        if not utils.add_url_map(original, short_url):
+            flash(const.BD_ERROR)
+            return render_template('index.html', form=form)
 
-        url_map = models.URL_map(
-            original=form.original_link.data,
-            short=short_url
-        )
         flash(const.YOUR_URL_IS_READY)
         flash(short_url)
-        db.session.add(url_map)
-        db.session.commit()
     return render_template('index.html', form=form)
 
 
