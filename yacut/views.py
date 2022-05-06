@@ -1,4 +1,5 @@
 from flask import abort, flash, redirect, render_template
+from http import HTTPStatus
 
 from . import app
 from . import constants as const
@@ -40,5 +41,5 @@ def mapper(short_url):
     """
     original_url = models.URL_map.query.filter_by(short=short_url).first()
     if original_url is None:
-        abort(404)
+        abort(HTTPStatus.NOT_FOUND)
     return redirect(original_url.original)

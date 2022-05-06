@@ -15,7 +15,7 @@ def get_unique_short_id(symbols=const.allowed_symbols, length=6):
         length (int, optional): Длина генерируемой строки. Defaults to 6.
 
     Returns:
-        str: Сгенерировання случайноя строка.
+        str: Сгенерированная случайноя строка.
     """
     result = []
     while True:
@@ -73,9 +73,8 @@ def get_urls_for_map(form):
     """
     original = form.original_link.data
     short = form.custom_id.data
-    if short:
-        if short_url_exist(short):
-            return original, short, const.SHORT_URL_IS_BUSY % ('', '', short, '!')
-    else:
-        short = get_unique_short_id()
+    if not short:
+        return original, get_unique_short_id(), None
+    if short_url_exist(short):
+        return original, short, const.SHORT_URL_IS_BUSY % ('', '', short, '!')
     return original, short, None

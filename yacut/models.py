@@ -3,6 +3,8 @@ from datetime import datetime as dt
 from . import db
 from .constants import api_fields
 
+# Название класса нарушает PEP из-за тестов */tests/conftest.py:23:
+
 
 class URL_map(db.Model):
     """Связывает ориганальный URL с коротким.

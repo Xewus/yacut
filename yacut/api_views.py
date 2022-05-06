@@ -1,4 +1,5 @@
 from flask import jsonify, request, url_for
+from http import HTTPStatus
 
 from . import app
 from . import constants as const
@@ -47,7 +48,7 @@ def new_short_url():
         ),
         'url': original
     }
-    return jsonify(response_dict), 201
+    return jsonify(response_dict), HTTPStatus.CREATED
 
 
 @app.route('/api/id/<string:short_id>/', methods=['GET'])
@@ -65,5 +66,5 @@ def get_mapper_url(short_id):
     """
     url_map = URL_map.query.filter_by(short=short_id).first()
     if url_map is None:
-        raise APIException(const.NOT_FOUND, 404)
-    return dict(url=f'{url_map.original}'), 200
+        raise APIException(const.NOT_FOUND, HTTPStatus.NOT_FOUND)
+    return dict(url=f'{url_map.original}'), HTTPStatus.OK
