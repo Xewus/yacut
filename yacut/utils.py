@@ -74,6 +74,12 @@ def get_urls_for_map(form):
     """
     original = form.original_link.data
     short = form.custom_id.data
+    #  Возможны три ситуации, потому три выхода.
+    #  Можно сделать два выхода, либо как было раньше череез if`ы,
+    #  либо будет лишний запрос в БД со сгенерированной ссылкой,
+    #  хотя его можно и отменить прикостылив флаг.
+    #  В таком виде хотя бы "плоское лучше вложенного".
+    #  После проверки комментарии будут удалены.
     if not short:
         return original, get_unique_short_id(), None
     if short_url_exist(short):
