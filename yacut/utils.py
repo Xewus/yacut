@@ -1,4 +1,5 @@
-from random import choice
+import multiprocessing
+import random
 
 from sqlalchemy.exc import IntegrityError
 
@@ -7,7 +8,7 @@ from . import db
 from .models import URL_map
 
 
-def get_unique_short_id(symbols=const.allowed_symbols, length=6):
+def get_unique_short_id(symbols=const.allowed_symbols, length=const.LEN_AUTO_SHORT):
     """Создаёт строку из случайных символов.
 
     Args:
@@ -19,8 +20,8 @@ def get_unique_short_id(symbols=const.allowed_symbols, length=6):
     """
     result = []
     while True:
-        for i in range(length):
-            result.append(choice(symbols))
+        for _ in range(length):
+            multiprocessing.Process(result.append(random.choice(symbols)))
         result = ''.join(result)
         if URL_map.query.filter_by(short=result).first():
             result = []

@@ -8,6 +8,7 @@ api_fields = {
 }
 
 MAX_LEN_SHORT = 16
+LEN_AUTO_SHORT = 6
 
 # used in .views
 SHORT_URL_IS_BUSY = 'Имя %s%s%s уже занято%s'  # В тестах использованы разные знаки препинания @_@

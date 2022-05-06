@@ -1,5 +1,6 @@
-from flask import abort, flash, redirect, render_template
 from http import HTTPStatus
+
+from flask import abort, flash, redirect, render_template
 
 from . import app
 from . import constants as const

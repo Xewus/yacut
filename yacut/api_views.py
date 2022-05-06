@@ -1,5 +1,6 @@
-from flask import jsonify, request, url_for
 from http import HTTPStatus
+
+from flask import jsonify, request, url_for
 
 from . import app
 from . import constants as const
