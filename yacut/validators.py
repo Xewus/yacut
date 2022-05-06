@@ -1,6 +1,6 @@
 from wtforms import validators
 
-from .constants import allowed_symbols
+from . import constants as const
 
 DataRequired = validators.DataRequired
 Length = validators.Length
@@ -41,7 +41,7 @@ def symbols_validation(string, exception):
     Raises:
         exception:При наличии недопустимых символов.
     """
-    if isinstance(string, str) and all((symbol in allowed_symbols) for symbol in string):
+    if isinstance(string, str) and all((symbol in const.ALLOWED_SYMBOLS) for symbol in string):
         return
     raise exception
 

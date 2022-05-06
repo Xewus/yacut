@@ -8,7 +8,7 @@ from . import db
 from .models import URL_map
 
 
-def get_unique_short_id(symbols=const.allowed_symbols, length=const.LEN_AUTO_SHORT):
+def get_unique_short_id(symbols=const.ALLOWED_SYMBOLS, length=const.LEN_AUTO_SHORT):
     """Создаёт строку из случайных символов.
 
     Args:

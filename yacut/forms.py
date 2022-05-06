@@ -33,7 +33,7 @@ class UrlMapForm(FlaskForm):
                 message='Слишком длинное имя'
             ),
             validators.AllOf(
-                values=const.allowed_symbols,
+                values=const.ALLOWED_SYMBOLS,
                 message='Разрешены только латиница и цифры'
             )
         )

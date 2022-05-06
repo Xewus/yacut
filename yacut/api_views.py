@@ -20,8 +20,8 @@ def new_short_url():
     Returns:
         Responce: json.
     """
-    original = const.api_fields['original']
-    short = const.api_fields['short']
+    original = const.API_REQUEST_FIELDS['original']
+    short = const.API_REQUEST_FIELDS['short']
     data = request.get_json()
 
     if not data:
@@ -44,10 +44,10 @@ def new_short_url():
     utils.add_url_map(original, short)
 
     response_dict = {
-        'short_link': url_for(
+        const.API_RESPONSE_FIELDS['short']: url_for(
             'mapper', short_url=short, _external=True
         ),
-        'url': original
+        const.API_RESPONSE_FIELDS['original']: original
     }
     return jsonify(response_dict), HTTPStatus.CREATED
 
@@ -68,4 +68,8 @@ def get_mapper_url(short_id):
     url_map = URL_map.query.filter_by(short=short_id).first()
     if url_map is None:
         raise APIException(const.NOT_FOUND, HTTPStatus.NOT_FOUND)
-    return dict(url=f'{url_map.original}'), HTTPStatus.OK
+
+    response_dict = {
+        const.API_RESPONSE_FIELDS['original']: url_map.original
+    }
+    return response_dict, HTTPStatus.OK
