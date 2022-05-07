@@ -1,11 +1,11 @@
+"""ORM-моделя для создания таблиц в БД.
+"""
 from datetime import datetime as dt
 
 from . import db
 
-# Название класса нарушает PEP из-за тестов */tests/conftest.py:23:
 
-
-class URL_map(db.Model):
+class UrlMap(db.Model):
     """Связывает ориганальный URL с коротким.
 
     Attrs:

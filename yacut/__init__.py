@@ -10,3 +10,5 @@ db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
 from . import api_views, error_handlers, views
+if app.env == 'production':
+    db.create_all()

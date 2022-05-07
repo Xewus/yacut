@@ -1,3 +1,5 @@
+"""Формы для web-интерфейса.
+"""
 import wtforms as fields
 from flask_wtf import FlaskForm
 

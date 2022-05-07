@@ -1,3 +1,5 @@
+"""Обработка запросов  web-интерфейсу.
+"""
 from http import HTTPStatus
 
 from flask import abort, flash, redirect, render_template
@@ -40,7 +42,7 @@ def mapper(short_url):
     Returns:
         Responce: Перенапрвление на оригинальную ссылку.
     """
-    original_url = models.URL_map.query.filter_by(short=short_url).first()
+    original_url = models.UrlMap.query.filter_by(short=short_url).first()
     if original_url is None:
         abort(HTTPStatus.NOT_FOUND)
     return redirect(original_url.original)

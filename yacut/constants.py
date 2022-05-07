@@ -1,3 +1,5 @@
+"""Постоянные значения и литералы для приложения.
+"""
 from string import ascii_letters, digits
 
 ALLOWED_SYMBOLS = f'{ascii_letters}{digits}'
@@ -16,7 +18,7 @@ MAX_LEN_SHORT = 16
 LEN_AUTO_SHORT = 6
 
 # used in .views
-SHORT_URL_IS_BUSY = 'Имя %s%s%s уже занято%s'
+SHORT_URL_IS_BUSY = 'Имя %s уже занято!'
 YOUR_URL_IS_READY = 'Ваша новая ссылка готова:'
 BD_ERROR = 'Не удалось создать ссылку'
 

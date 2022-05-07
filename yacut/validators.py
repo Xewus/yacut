@@ -1,3 +1,5 @@
+"""Функции и классы для проверок.
+"""
 from wtforms import validators
 
 from . import constants as const

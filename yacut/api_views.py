@@ -1,3 +1,6 @@
+"""Обработка запросов к api-интерфейсу.
+"""
+
 from http import HTTPStatus
 
 from flask import jsonify, request, url_for
@@ -6,7 +9,7 @@ from . import app
 from . import constants as const
 from . import utils
 from .error_handlers import APIException
-from .models import URL_map
+from .models import UrlMap
 from .validators import len_validation, symbols_validation
 
 
@@ -37,7 +40,7 @@ def new_short_url():
         len_validation(short, APIException(const.API_EXC_MESSAGE), max=const.MAX_LEN_SHORT)
         symbols_validation(short, APIException(const.API_EXC_MESSAGE))
         if utils.short_url_exist(short):
-            raise APIException(const.SHORT_URL_IS_BUSY % ('"', short, '"', '.'))
+            raise APIException(const.SHORT_URL_IS_BUSY % short)
     else:
         short = utils.get_unique_short_id()
 
@@ -65,7 +68,7 @@ def get_mapper_url(short_id):
     Returns:
         tuple(str, int): Оригинальная ссылка, статус-код.
     """
-    url_map = URL_map.query.filter_by(short=short_id).first()
+    url_map = UrlMap.query.filter_by(short=short_id).first()
     if url_map is None:
         raise APIException(const.NOT_FOUND, HTTPStatus.NOT_FOUND)
 

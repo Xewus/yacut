@@ -1,3 +1,5 @@
+"""Обработка ошибок запросов.
+"""
 from http import HTTPStatus
 
 from flask import jsonify, render_template
