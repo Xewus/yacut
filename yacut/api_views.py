@@ -1,6 +1,5 @@
 """Обработка запросов к api-интерфейсу.
 """
-
 from http import HTTPStatus
 
 from flask import jsonify, request, url_for
