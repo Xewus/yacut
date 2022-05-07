@@ -1,18 +1,18 @@
 """Постоянные значения и литералы для приложения.
 """
+from collections import namedtuple
 from string import ascii_letters, digits
 
 ALLOWED_SYMBOLS = f'{ascii_letters}{digits}'
 
-API_REQUEST_FIELDS = {
-    'original': 'url',
-    'short': 'custom_id'
-}
+# Кортеж с именами полей к в модели UrlMap
+URL_MAP_FIELDS = namedtuple('Fields', 'id original short timestamp')
 
-API_RESPONSE_FIELDS = {
-    'original': 'url',
-    'short': 'short_link'
-}
+# Кортеж, связывающий поля API-запроса с полями модели UrlMap
+API_REQUEST_FIELDS = URL_MAP_FIELDS(None, 'url', 'custom_id', None)
+
+# Кортеж, свзывающий поля API-ответа с полями модели UrlMap
+API_RESPONSE_FIELDS = URL_MAP_FIELDS(None, 'url', 'short_link', None)
 
 MAX_LEN_SHORT = 16
 LEN_AUTO_SHORT = 6
