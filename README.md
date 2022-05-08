@@ -57,7 +57,7 @@ touch .env
 ```
 FLASK_APP=yacut
 FLASK_ENV=production
-SQLALCHEMY_DATABASE_URI=<sqlite:///db.sqlite3>
+DATABASE_URI=<sqlite:///db.sqlite3>
 SECRET_KEY=<Your secret key>
 ```
 Запустить:
