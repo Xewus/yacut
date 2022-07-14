@@ -18,7 +18,7 @@ def get_unique_short_id(symbols=const.ALLOWED_SYMBOLS, length=const.LEN_AUTO_SHO
         length (int, optional): Длина генерируемой строки. Defaults to 6.
 
     Returns:
-        str: Сгенерированная случайноя строка.
+        str: Сгенерированная случайная строка.
     """
     result = []
     while not result:
