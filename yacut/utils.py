@@ -1,6 +1,5 @@
 """Вспомогательные функции приложения.
 """
-import multiprocessing
 import random
 
 from sqlalchemy.exc import IntegrityError
@@ -23,7 +22,7 @@ def get_unique_short_id(symbols=const.ALLOWED_SYMBOLS, length=const.LEN_AUTO_SHO
     result = []
     while not result:
         for _ in range(length):
-            multiprocessing.Process(result.append(random.choice(symbols)))
+            result.append(random.choice(symbols))
         result = ''.join(result)
         if UrlMap.query.filter_by(short=result).first():
             result = []
