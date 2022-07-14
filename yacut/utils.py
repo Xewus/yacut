@@ -19,15 +19,14 @@ def get_unique_short_id(symbols=const.ALLOWED_SYMBOLS, length=const.LEN_AUTO_SHO
     Returns:
         str: Сгенерированная случайная строка.
     """
-    result = []
-    while not result:
-        for _ in range(length):
-            result.append(random.choice(symbols))
+    result = [None] * length
+    while True:
+        for i in range(length):
+            result[i] = random.choice(symbols)
         result = ''.join(result)
         if UrlMap.query.filter_by(short=result).first():
-            result = []
             continue
-        return ''.join(result)
+        return result
 
 
 def short_url_exist(short_url):
